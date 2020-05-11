@@ -16,7 +16,7 @@ function createAxios ({ baseURL }) {
             return axios.post(baseURL + url, params).then(res => res)
         },
         get: (url, params) => {
-            return axios.get(baseURL + url, params).then(res => res)
+            return axios.get(baseURL + url, { params }).then(res => res)
         },
     }
 }
