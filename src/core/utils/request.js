@@ -8,15 +8,19 @@ import axios from 'axios'
 import Interceptor from './../utils/interceptor'
 
 function createAxios ({ baseURL }) {
-    axios.create({ baseURL });
-    axios.interceptors.request.use(Interceptor.request, Interceptor.requestError)
-    axios.interceptors.response.use(Interceptor.response, Interceptor.responseError)
+    const ajax = function () {
+        let ajax = axios.create({ baseURL });
+        ajax.interceptors.request.use(Interceptor.request, Interceptor.requestError)
+        ajax.interceptors.response.use(Interceptor.response, Interceptor.responseError)
+        return ajax
+    }
+
     return {
         post: (url, params) => {
-            return axios.post(baseURL + url, params).then(res => res)
+            return ajax().post(baseURL + url, params).then(res => res)
         },
         get: (url, params) => {
-            return axios.get(baseURL + url, { params }).then(res => res)
+            return ajax().get(baseURL + url, {params}).then(res => res)
         },
     }
 }
